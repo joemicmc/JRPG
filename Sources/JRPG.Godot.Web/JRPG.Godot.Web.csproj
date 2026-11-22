@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- Browser (wasm) host; requires `dotnet workload install wasm-tools`. Publish from the project root:
+		 dotnet publish JRPG.Godot.Web -> AppBundle/ (engine linked in, content exported as godot.pck) -->
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<IsPackable>false</IsPackable>
+		<!-- Keep host namespaces uniform with the desktop host (whose
+			 '.2dog' assembly name is not a valid namespace). -->
+		<RootNamespace>JRPG.Godot.Web</RootNamespace>
+	</PropertyGroup>
+
+	<!-- Godot project location: the parent directory (hosts are nested inside
+		 the Godot project, hidden from the Godot editor by their .gdignore) -->
+	<PropertyGroup>
+		<GodotProjectDir>..\JRPG.Godot</GodotProjectDir>
+		<TwoDogRemoveDuplicateGodotAnalyzers>true</TwoDogRemoveDuplicateGodotAnalyzers>
+		<NoWarn>$(NoWarn);IL2104</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="2dog.engine" Version="4.7.2.78" />
+		<PackageReference Include="2dog.browser-wasm" Version="[4.7.2.2]" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="../JRPG.Godot/JRPG.Godot.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="AppBundle\**" />
+		<EmbeddedResource Remove="AppBundle\**" />
+		<None Remove="AppBundle\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- TwoDogWebBoot.cs is compiled by the GAME project (see the root
+			 csproj's Compile Include), not by this host. -->
+		<Compile Remove="TwoDogWebBoot.cs" />
+		<Compile Remove="Main.cs" />
+	</ItemGroup>
+
+	<!-- Scripts are resolved by reflection: root the game assembly, and any NuGet package your game reaches
+		 via reflection (e.g. an ECS or serializer library) -->
+	<ItemGroup>
+		<TrimmerRootAssembly Include="JRPG.Godot" />
+		<TrimmerRootAssembly Include="$(TargetName)" />
+	</ItemGroup>
+
+	<!-- 2dog builds AppBundle from the engine output only; copy the hand-written web shell (index.html, favicons) in after publish -->
+	<Target Name="CopyWebShell" AfterTargets="Publish">
+		<ItemGroup>
+			<WebShellFile Include="$(MSBuildProjectDirectory)\wwwroot\**\*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(WebShellFile)" DestinationFolder="$(MSBuildProjectDirectory)\AppBundle\%(WebShellFile.RecursiveDir)" SkipUnchangedFiles="true" />
+	</Target>
+
+	<Target Name="DeepClean" AfterTargets="Clean">
+		<RemoveDir Directories="AppBundle" />
+	</Target>
+</Project>

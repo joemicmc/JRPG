@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "JRPG.Godot": {
+      "commandName": "Executable",
+      "executablePath": "%GODOT_EXECUTABLE%",
+      "commandLineArgs": "--path . --verbose",
+      "workingDirectory": "."
+    }
+  }
+}

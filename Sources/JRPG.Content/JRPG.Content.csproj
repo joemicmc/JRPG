@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="Content\Icon.svg" />
+		<Content Include="Content\Fonts\RPG.ttf" />
+		<Content Include="Content\Textures\Splash.png" />
+		<Content Include="Content\Textures\Title.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ContentFiles Include="$(ProjectDir)Content\**\*" />
+		<UpToDateCheckInput Include="@(ContentFiles)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Content\Music\" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<GodotExecutable Condition="'$(GodotExecutable)' == ''">$(GODOT_EXECUTABLE)</GodotExecutable>
+	</PropertyGroup>
+
+	<Target Name="PostBuild" AfterTargets="Build">
+		<Copy SourceFiles="@(ContentFiles)" DestinationFiles="@(ContentFiles->'$(ProjectDir)..\JRPG.Godot\Content\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="$(ProjectDir)Content\Textures\Splash.png" DestinationFolder="$(ProjectDir)..\JRPG.Godot.Web\wwwroot" SkipUnchangedFiles="true" />
+	</Target>
+
+	<Target Name="GodotImport" AfterTargets="PostBuild" Inputs="@(ContentFiles)" Outputs="$(IntermediateOutputPath)godot-import.stamp" Condition="'$(GodotExecutable)' != '' And Exists('$(GodotExecutable)')">
+		<Exec Command="&quot;$(GodotExecutable)&quot; --headless --path &quot;$(ProjectDir)..\JRPG.Godot&quot; --import" IgnoreStandardErrorWarningFormat="true" />
+		<Touch Files="$(IntermediateOutputPath)godot-import.stamp" AlwaysCreate="true" />
+	</Target>
+
+</Project>

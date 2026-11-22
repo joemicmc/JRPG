@@ -1,0 +1,11 @@
+/**/bin
+/**/obj
+/**/AppBundle
+/**/Build
+
+/**/.godot
+/**/.vs
+
+/Sources/JRPG.Godot/Content
+/Sources/Packages
+Sources/JRPG.Godot.Web/wwwroot/Splash.png

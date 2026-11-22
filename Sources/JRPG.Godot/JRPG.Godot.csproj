@@ -1,0 +1,52 @@
+<Project Sdk="Godot.NET.Sdk/4.7.2">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\JRPG.Content\JRPG.Content.csproj" />
+		<ProjectReference Include="..\JRPG.Core\JRPG.Core.csproj" />
+		<ProjectReference Include="..\JRPG\JRPG.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="global.json" />
+		<Content Include="Properties\launchSettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include=".editorconfig" />
+		<None Include="Directory.Build.targets" />
+		<None Include="export_presets.cfg" />
+		<None Include="Program.tscn" />
+		<None Include="project.godot" />
+	</ItemGroup>
+
+	<!-- added by the 2dog tool: properties 2dog hosts need that were not already set -->
+	<PropertyGroup>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<DefineConstants>$(DefineConstants);LIBGODOT_ENABLED</DefineConstants>
+		<DefaultItemExcludes>$(DefaultItemExcludes);JRPG.Godot.Web/**</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<!-- added by the 2dog tool: compiles the web bootstrap (in the web host folder) into this game assembly -->
+	<ItemGroup>
+		<Compile Include="../JRPG.Godot.Web/TwoDogWebBoot.cs" Condition="Exists('$(MSBuildThisFileDirectory)../JRPG.Godot.Web/TwoDogWebBoot.cs')" />
+		<Compile Include="../JRPG.Godot.Web/Main.cs" Condition="Exists('$(MSBuildThisFileDirectory)../JRPG.Godot.Web/Main.cs')" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="11.0.0" />
+	</ItemGroup>
+
+</Project>

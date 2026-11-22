@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "JRPG.Godot.Web (debug)": {
+      "commandName": "Executable",
+      "executablePath": "powershell.exe",
+      "commandLineArgs": "-NoProfile -ExecutionPolicy Bypass -File .\\launch-web.ps1 -Port 8080 -Configuration Debug",
+      "workingDirectory": "."
+    },
+    "JRPG.Godot.Web (release)": {
+      "commandName": "Executable",
+      "executablePath": "powershell.exe",
+      "commandLineArgs": "-NoProfile -ExecutionPolicy Bypass -File .\\launch-web.ps1 -Port 8080 -Configuration Release",
+      "workingDirectory": "."
+    }
+  }
+}

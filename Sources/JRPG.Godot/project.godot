@@ -1,0 +1,52 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="JRPG.Godot"
+run/main_scene="uid://632tc6cbshj3"
+config/features=PackedStringArray("4.7", "C#", "Forward Plus")
+boot_splash/use_filter=false
+boot_splash/image="res://Content/Textures/Splash.png"
+config/icon="res://Content/Icon.svg"
+
+[display]
+
+window/size/viewport_width=200
+window/size/viewport_height=180
+window/size/window_width_override=1000
+window/size/window_height_override=900
+window/stretch/mode="canvas_items"
+window/stretch/scale_mode="integer"
+
+[dotnet]
+
+project/assembly_name="JRPG.Godot"
+project/solution_directory=".."
+
+[importer_defaults]
+
+font_data_dynamic={
+"antialiasing": 0,
+"hinting": 0,
+"keep_rounding_remainders": false,
+"oversampling": 1.0,
+"subpixel_positioning": 0
+}
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0.7764706, 0, 0.7764706, 1)
